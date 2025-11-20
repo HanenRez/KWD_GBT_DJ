@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="text-align:center;">{{ niveau.nom }}</h1>
+
+{% if niveau.description %}
+<p style="text-align:center;">{{ niveau.description }}</p>
+{% endif %}
+
+<h2 style="margin-top:40px;">Animations disponibles :</h2>
+
+<ul>
+  {% for anim in animations %}
+    <li>
+      {{ anim.titre }}
+      — 
+      {% if anim.fichier_svg %}
+        <a href="{{ anim.fichier_svg.url }}" target="_blank">Voir SVG</a>
+      {% endif %}
+      {% if anim.audio %}
+        | <audio controls src="{{ anim.audio.url }}"></audio>
+      {% endif %}
+    </li>
+  {% empty %}
+    <p>Aucune animation pour ce niveau.</p>
+  {% endfor %}
+</ul>
+
+{% endblock %}

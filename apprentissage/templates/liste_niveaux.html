@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="text-align:center;">Les niveaux</h1>
+
+<div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
+  {% for niveau in niveaux %}
+    <div style="width:200px; text-align:center;">
+      <a href="{% url 'detail_niveau' niveau.id %}">
+        {% if niveau.illustration %}
+          <img src="{{ niveau.illustration.url }}" width="180">
+        {% endif %}
+        <h3>{{ niveau.nom }}</h3>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
