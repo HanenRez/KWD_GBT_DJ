@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>أتعلم اللغة العربية مع كليلة ودمنة</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body >
+  <header style="text-align:center; padding:20px;">
+    <img src="{% static 'img/Raiss.svg' %}" style="position:absolute; top:0vw; right:0vw;z-index: -1;background-size: contain;" >
+   
+    
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  
+</body>
+</html>
