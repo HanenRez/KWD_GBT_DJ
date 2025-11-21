@@ -1,18 +1,45 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1 style="text-align:center;">Les niveaux</h1>
 
-<div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
-  {% for niveau in niveaux %}
-    <div style="width:200px; text-align:center;">
-      <a href="{% url 'detail_niveau' niveau.id %}">
-        {% if niveau.illustration %}
-          <img src="{{ niveau.illustration.url }}" width="180">
-        {% endif %}
-        <h3>{{ niveau.nom }}</h3>
-      </a>
+
+
+<div class="niveaux-container">
+
+{% for niveau in niveaux %}
+    <div class="niveau-card"
+        onclick="window.location.href='{% url 'detail_niveau' niveau.id %}'">
+
+        <div class="image-wrapper">
+
+            <!-- Image de décor -->
+            {% if niveau.illustration2 %}
+                <img src="{{ niveau.illustration2.url }}" class="image decor"  onmouseover="playAudio('{{ niveau.audio2.url }}')">
+            {% endif %}
+
+            <!-- Image du personnage -->
+            {% if niveau.illustration %}
+                <img src="{{ niveau.illustration.url }}" class="image perso"  onmouseover="playAudio('{{ niveau.audio.url }}')">
+                
+            {% endif %}
+
+        </div>
+
+       
     </div>
-  {% endfor %}
+{% endfor %}
+
 </div>
+
+<audio id="player"></audio>
+
+<script>
+function playAudio(src) {
+    const player = document.getElementById('player');
+    player.src = src;
+    player.play();
+}
+</script>
+
 {% endblock %}

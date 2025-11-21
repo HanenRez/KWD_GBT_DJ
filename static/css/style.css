@@ -1,0 +1,67 @@
+body.decor {
+    margin: 0;
+    padding: 0;
+    background-image: url("../statimages/Raiss.svg");
+    background-size: cover;      /* Remplit toute la fenêtre */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* Effet “ancré” */
+}
+
+/******************************************************************************************/
+/*************************************style liste_niveaux.html*****************************************/
+/******************************************************************************************/
+.niveaux-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3vw;
+    padding: 2vw;
+}
+
+.niveau-card {
+    width: 22vw;
+    height: 22vw;
+    position: relative;
+    background: rgba(255,255,255,0.6);
+    border-radius: 1vw;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.niveau-card:hover {
+    transform: scale(1.05);
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 20vw;  /* Ratio cohérent */
+}
+
+/* LES DEUX IMAGES SUPERPOSÉES */
+.image {
+    position: absolute;  
+}
+
+
+
+/* décor derrière */
+.image.decor {
+    z-index: 2;
+    top:100%;
+    right:100%;
+    transform: translate(105%, -105%);   
+
+}
+
+/* personnage devant */
+.image.perso {
+    z-index: 1;
+    top:50%;
+    right:50%;
+    transform: translate(50%, -45%);
+
+}
+
+
