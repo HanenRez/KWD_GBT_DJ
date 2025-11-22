@@ -65,3 +65,167 @@ body.decor {
 }
 
 
+/***********************************************************************************/
+/********************************detail_niveau_full*************************************/
+/*********************************************************************************/
+/* Proportions globales */
+.stage-wrapper {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 2vw 0;
+}
+
+.stage {
+  width: 100vw;
+  height: 50vw;      /* ton ratio choisi */
+  max-height: 60vh;  /* fallback pour très grands écrans */
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  background: transparent;
+}
+
+/* SVG inline ou IMG décor/perso : on superpose */
+.svg-decor, .svg-perso,
+img.svg-decor, img.svg-perso {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 50vw;
+  pointer-events: none; /* décor non-cliquable par défaut */
+  user-select: none;
+}
+
+/* personnage devant : autoriser les événements si inline */
+.svg-perso.svg-inline svg,
+img.svg-perso {
+  z-index: 5;
+  pointer-events: auto; /* autoriser clics/hover */
+}
+
+/* décor derrière */
+.svg-decor.svg-inline svg,
+img.svg-decor {
+  z-index: 1;
+}
+
+/* animations list (miniatures / contrôles) */
+.animations-list {
+  position: absolute;
+  right: 1.5vw;
+  bottom: 1.5vw;
+  z-index: 10;
+  display:flex;
+  flex-direction:column;
+  gap: .6vw;
+  background: rgba(255,255,255,0.55);
+  border-radius: .8vw;
+  padding: .6vw;
+}
+
+.anim-item {
+  display:flex;
+  align-items:center;
+  gap: .6vw;
+  font-size: .9vw;
+}
+
+.play-btn {
+  padding: .4vw .6vw;
+  border-radius: .6vw;
+  border: none;
+  cursor: pointer;
+}
+
+/***********************************************************************************/
+/********************************detail_niveau_sinan*************************************/
+/*********************************************************************************/
+
+/* Container général */
+.sinan-container {
+    width: 100vw;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Titre */
+.sinan-title {
+    font-size: 3vw;
+    margin-top: 1vw;
+    margin-bottom: 2vw;
+    font-family: "Georgia", serif;
+}
+
+/* Zone principale décor + personnage */
+.scene-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 50vw;
+    margin: 0 auto;
+    overflow: hidden; /* évite les débordements */
+}
+
+/* SVG décor en arrière plan */
+.decor-layer svg,
+.decor-layer img {
+    position: absolute;
+    width: 100vw;
+    height: 50vw;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    object-fit: contain;
+}
+
+/* SVG personnage devant */
+.perso-layer svg,
+.perso-layer img {
+    position: absolute;
+    width: 100vw;
+    height: 50vw;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    object-fit: contain;
+    pointer-events: auto;
+}
+
+/* Section des animations */
+.sinan-actions {
+    margin-top: 3vw;
+    padding: 2vw;
+}
+
+.actions-list {
+    width: 60vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.action-item {
+    padding: 1vw;
+    background: rgba(255,255,255,0.6);
+    border-radius: 1vw;
+    font-size: 1.5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-link {
+    padding: .5vw 1vw;
+    background: #333;
+    color: white;
+    border-radius: .5vw;
+    text-decoration: none;
+}
+
+.action-link:hover {
+    background: #555;
+}

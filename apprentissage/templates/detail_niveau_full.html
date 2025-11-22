@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<div class="niveau-page">
+
+  <header class="niveau-header">
+    <h1 class="niveau-titre">{{ niveau.personnage }}</h1>
+    {% if niveau.description %}
+      <p class="niveau-desc">{{ niveau.description }}</p>
+    {% endif %}
+  </header>
+
+  <!-- zone d'affichage proportionnelle : 100vw x 50vw -->
+  <section class="stage-wrapper">
+    <div class="stage" id="stage-{{ niveau.id }}">
+
+      <!-- SVG décor (inline si disponible) -->
+      {% if svg_decor %}
+        <div class="svg-decor svg-inline">
+          {{ svg_decor|safe }}
+        </div>
+      {% elif niveau.illustration2 %}
+        <img class="svg-decor" src="{{ niveau.illustration2.url }}" alt="Décor">
+      {% endif %}
+
+      <!-- SVG personnage (inline si disponible) -->
+      {% if svg_perso %}
+        <div class="svg-perso svg-inline">
+          {{ svg_perso|safe }}
+        </div>
+      {% elif niveau.illustration %}
+        <img class="svg-perso" src="{{ niveau.illustration.url }}" alt="Personnage">
+      {% endif %}
+
+      <!-- Liste des animations (miniatures) -->
+      <div class="animations-list">
+        {% for anim in animations %}
+          <div class="anim-item">
+            <a class="anim-link" href="{{ anim.fichier_svg.url }}" target="_blank">{{ anim.titre }}</a>
+            {% if anim.audio %}
+              <button class="play-btn" data-src="{{ anim.audio.url }}">▶</button>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- audio global (pour lecture au survol/clic) -->
+  <audio id="global-player" preload="none"></audio>
+
+</div>
+
+<script>
+/* JS simple pour :
+   - attacher events sur les éléments SVG par id/class (si inline)
+   - lecture audio au survol (hover) pour éléments ciblés
+   - clic sur zones déclenche actions
+*/
+(function(){
+  const player = document.getElementById('global-player');
+
+  // lecture par boutons miniatures
+  document.querySelectorAll('.play-btn').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      const src = btn.dataset.src;
+      if(!src) return;
+      player.src = src;
+      player.play().catch(()=>{});
+    });
+  });
+
+  // si svg inline présent, on peut ajouter handlers
+  function attachSVGHandlers(wrapperSelector){
+    const wrapper = document.querySelector(wrapperSelector);
+    if(!wrapper) return;
+
+    // chercher des éléments cliquables ayant la classe "clickable" ou un id
+    // (dans Inkscape, donne des id comme zone1, bouton_parler, etc.)
+    const svgs = wrapper.querySelectorAll('svg');
+    svgs.forEach(svg=>{
+      const clickable = svg.querySelectorAll('.clickable, [data-action], [id]');
+      clickable.forEach(el=>{
+        // survol -> si data-audio attr présent, joue audio
+        el.addEventListener('mouseenter', ()=>{
+          const audioSrc = el.getAttribute('data-audio') || el.getAttribute('data-sound');
+          if(audioSrc){
+            player.src = audioSrc;
+            player.play().catch(()=>{});
+          }
+        });
+        // clic -> si data-url present, redirige
+        el.addEventListener('click', (ev)=>{
+          const url = el.getAttribute('data-url');
+          if(url){
+            window.location.href = url;
+          } else {
+            // autre action possible : toggle class
+            el.classList.toggle('active');
+          }
+        });
+      });
+    });
+  }
+
+  // Attacher sur décor et perso (si inline)
+  attachSVGHandlers('.svg-decor.svg-inline');
+  attachSVGHandlers('.svg-perso.svg-inline');
+
+})();
+</script>
+
+{% endblock %}
