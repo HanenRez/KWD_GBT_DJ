@@ -31,20 +31,19 @@
 (function(){
   const player = document.getElementById('global-player');
 
-  
-
-  // si svg inline présent, on peut ajouter handlers
   function attachSVGHandlers(wrapperSelector){
     const wrapper = document.querySelector(wrapperSelector);
     if(!wrapper) return;
 
-    // chercher des éléments cliquables ayant la classe "clickable" ou un id
-    // (dans Inkscape, donne des id comme zone1, bouton_parler, etc.)
     const svgs = wrapper.querySelectorAll('svg');
     svgs.forEach(svg=>{
-      const clickable = svg.querySelectorAll('.clickable, [data-action], [id]');
+      
+      // IMPORTANT : ne cibler que les éléments voulus
+      const clickable = svg.querySelectorAll('.clickable, [data-action]');
+      
       clickable.forEach(el=>{
-        // survol -> si data-audio attr présent, joue audio
+        
+        // curseur seulement pour les zones interactives
         el.addEventListener('mouseenter', ()=>{
           el.style.cursor = "pointer";
           const audioSrc = el.getAttribute('data-audio') || el.getAttribute('data-sound');
@@ -53,37 +52,25 @@
             player.play().catch(()=>{});
           }
         });
-        // clic -> si data-url present, redirige
 
+        // clic → url (si présente)
         el.addEventListener('click', (ev)=>{
           ev.stopPropagation();
-          // 1. On teste un éventuel data-url (si jamais tu veux l'utiliser plus tard)
-
-  
-        const directUrl = el.getAttribute("data-url");
-        if (directUrl) {
-            window.location.href = directUrl;
-            return;
-        }
-        // 2. Sinon, on utilise l'id du SVG
-        
-       // if (slug) {
-            // règle : id = slug du niveau
-        //    window.location.href = `/moughamarati/${slug}/`;
-       //     return;
-      //  }
-        // 3. Fallback
-        console.log("Aucune URL trouvée pour cet élément.");
-
+          const url = el.getAttribute("data-url");
+          if (url){
+            window.location.href = url;
+          }
         });
+
       });
     });
   }
-       
-  // Attacher sur décor et perso (si inline)
-  attachSVGHandlers('.svg-machhad.svg-inline');
 
+  attachSVGHandlers('.svg-wrapper');
 })();
+
 </script>
 
 {% endblock %}
+
+

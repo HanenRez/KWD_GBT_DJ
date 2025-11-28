@@ -2,9 +2,18 @@
 {% load static %}
 
 {% block content %}
+
+
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-
+<script>
+document.body.addEventListener('click', () => {
+    const p = document.getElementById("global-player");
+    if (p) {
+        p.muted = false;
+    }
+}, { once: true });
+</script>
 
       <!-- SVG personnage (inline si disponible) -->
       {% if svg_perso %}
@@ -28,6 +37,9 @@
    - lecture audio au survol (hover) pour éléments ciblés
    - clic sur zones déclenche actions
 */
+
+
+
 (function(){
   const player = document.getElementById('global-player');
 
@@ -89,6 +101,10 @@
   attachSVGHandlers('.svg-perso.svg-inline');
 
 })();
+
+
 </script>
+
+
 
 {% endblock %}
