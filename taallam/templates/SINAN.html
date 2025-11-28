@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+
+      <!-- SVG personnage (inline si disponible) -->
+      {% if svg_perso %}
+        <div class="svg-perso svg-inline">
+          {{ svg_perso|safe }}
+        </div>
+      {% elif niveau.illustration %}
+        <img class="svg-perso" src="{{ svgacceuil.illustration.url }}" alt="Personnage">
+      {% endif %}
+
+ 
+
+  <!-- audio global (pour lecture au survol/clic) -->
+  <audio id="global-player" preload="none"></audio>
+
+
+
+<script>
+/* JS simple pour :
+   - attacher events sur les éléments SVG par id/class (si inline)
+   - lecture audio au survol (hover) pour éléments ciblés
+   - clic sur zones déclenche actions
+*/
+(function(){
+  const player = document.getElementById('global-player');
+
+  
+
+  // si svg inline présent, on peut ajouter handlers
+  function attachSVGHandlers(wrapperSelector){
+    const wrapper = document.querySelector(wrapperSelector);
+    if(!wrapper) return;
+
+    // chercher des éléments cliquables ayant la classe "clickable" ou un id
+    // (dans Inkscape, donne des id comme zone1, bouton_parler, etc.)
+    const svgs = wrapper.querySelectorAll('svg');
+    svgs.forEach(svg=>{
+      const clickable = svg.querySelectorAll('.clickable, [data-action], [id]');
+      clickable.forEach(el=>{
+        // survol -> si data-audio attr présent, joue audio
+        el.addEventListener('mouseenter', ()=>{
+          el.style.cursor = "pointer";
+          const audioSrc = el.getAttribute('data-audio') || el.getAttribute('data-sound');
+          if(audioSrc){
+            player.src = audioSrc;
+            player.play().catch(()=>{});
+          }
+        });
+        // clic -> si data-url present, redirige
+
+        el.addEventListener('click', (ev)=>{
+          ev.stopPropagation();
+          // 1. On teste un éventuel data-url (si jamais tu veux l'utiliser plus tard)
+        const slug = el.getAttribute('id');
+
+        if (slug==DIMNA){svgniveau.slug=KALILA} 
+        if (slug==MOUCHTAQ){svgniveau.slug=LABIB}
+        if (slug==FARFAR){svgniveau.slug=MICHMICHA}   
+
+        console.log("ID cliqué :", slug);
+        const directUrl = el.getAttribute("data-url");
+        if (directUrl) {
+            window.location.href = directUrl;
+            return;
+        }
+        // 2. Sinon, on utilise l'id du SVG
+        
+       // if (slug) {
+            // règle : id = slug du niveau
+        //    window.location.href = `/moughamarati/${slug}/`;
+       //     return;
+      //  }
+        // 3. Fallback
+        console.log("Aucune URL trouvée pour cet élément.");
+
+        });
+      });
+    });
+  }
+       
+  // Attacher sur décor et perso (si inline)
+  attachSVGHandlers('.svg-perso.svg-inline');
+
+})();
+</script>
+
+{% endblock %}
