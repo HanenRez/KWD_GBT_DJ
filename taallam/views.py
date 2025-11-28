@@ -80,7 +80,7 @@ def moughamarati(request, slug):
             return None
 
    
-    svg_perso = read_svg_file(svgniveau.illustration)    # personnage (au premier plan)
+    svg_machhad = read_svg_file(svgniveau.illustration)    # personnage (au premier plan)
                                  # slug dans url et nom template
 
     # Si tu veux tester localement avec le fichier que tu as uploadé dans /mnt/data,
@@ -97,7 +97,7 @@ def moughamarati(request, slug):
 
     context = {
         "svgniveau": svgniveau,
-        "svg_perso": svg_perso,
+        "svg_machhad": svg_machhad,
         # "test_svg": test_svg,
     }
     return render(request, f"{svgniveau.slug}.html", context)

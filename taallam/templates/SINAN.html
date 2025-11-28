@@ -7,12 +7,12 @@
 
 
       <!-- SVG personnage (inline si disponible) -->
-      {% if svg_perso %}
-        <div class="svg-perso svg-inline">
-          {{ svg_perso|safe }}
+      {% if svg_machhad %}
+        <div class="svg_machhad svg-inline">
+          {{ svg_machhad|safe }}
         </div>
       {% elif niveau.illustration %}
-        <img class="svg-perso" src="{{ svgacceuil.illustration.url }}" alt="Personnage">
+        <img class="svg_machhad" src="{{ svgniveau.illustration.url }}" alt="Personnage">
       {% endif %}
 
  
@@ -86,7 +86,7 @@
   }
        
   // Attacher sur décor et perso (si inline)
-  attachSVGHandlers('.svg-perso.svg-inline');
+  attachSVGHandlers('.svg-machhad.svg-inline');
 
 })();
 </script>

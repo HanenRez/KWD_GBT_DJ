@@ -22,6 +22,7 @@ class niveau(models.Model):
     # ImageField OK si tu utilises django-svg-image-form-field
     illustration = models.ImageField(upload_to='niveaux_illustrations/', blank=True,null=True)
     ordre = models.PositiveIntegerField(default=1)
+    audio = models.FileField(upload_to='audios/', blank=True, null=True)
 
     def __str__(self):
         return self.nom
