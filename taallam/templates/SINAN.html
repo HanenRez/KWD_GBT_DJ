@@ -58,13 +58,8 @@
         el.addEventListener('click', (ev)=>{
           ev.stopPropagation();
           // 1. On teste un éventuel data-url (si jamais tu veux l'utiliser plus tard)
-        const slug = el.getAttribute('id');
 
-        if (slug==DIMNA){svgniveau.slug=KALILA} 
-        if (slug==MOUCHTAQ){svgniveau.slug=LABIB}
-        if (slug==FARFAR){svgniveau.slug=MICHMICHA}   
-
-        console.log("ID cliqué :", slug);
+  
         const directUrl = el.getAttribute("data-url");
         if (directUrl) {
             window.location.href = directUrl;
